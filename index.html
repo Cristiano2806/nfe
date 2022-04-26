@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Nf-e</title>
+</head>
+<body>
+    <form class="pure-form pure-form-stacked">
+        <fieldset>
+            <legend>Calcular dígito verificador de NF-e</legend>
+    
+            <label for="chave">Chave da NF-e (43 dígitos, somente números)</label>
+            <input id="chave" type="text" placeholder="Chave de acesso" maxlength="43" required pattern="[0-9]{43}">
+            <button type="submit" id="submit" class="pure-button pure-button-primary">Calcular</button>
+          <button type="reset" id="reset" class="pure-button">Limpar</button>
+        </fieldset>
+        <output id="output" role="alert" aria-live="assertive"></output>
+    </form>
+
+    <script>
+        const btnSubmit = document.getElementById("submit"),
+  btnReset = document.getElementById("reset"),
+  output = document.getElementById("output");
+
+function NFeComDigito() {
+  var key = document.getElementById("chave").value;
+
+  let indice = key.length - 1,
+    multiplicador = 2,
+    soma = 0,
+    resto = 0,
+    digito = 0;
+
+  if (key && key.length == 43 && parseInt(key)) {
+    for (; indice >= 0; indice--) {
+      let char = key.charAt(indice);
+      soma += parseInt(char) * multiplicador;
+      multiplicador++;
+
+      if (multiplicador > 9) multiplicador = 2;
+    }
+
+    resto = soma % 11;
+    digito = 11 - resto;
+
+    if (digito >= 10) digito = 0;
+
+    return digito;
+  } else {
+    output.innerHTML =
+      "Não foi possível calcular o dígito verificador. A chave da NFe não pode estar em branco, deve conter apenas números e possuir 43 caracteres";
+
+    return false;
+  }
+
+  return false;
+}
+
+btnSubmit.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  let digit = NFeComDigito(),
+    key = document.getElementById("chave").value;
+
+  if (digit) output.innerHTML = `${key}<strong>${digit}</strong>`;
+  //output.innerHTML = "it works!";
+});
+
+btnReset.addEventListener("click", (e) => {
+  output.innerHTML = "";
+});
+
+    </script>
+</body>
+</html>

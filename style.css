@@ -1,0 +1,15 @@
+.pure-form {
+    padding: 2em 3em 0;
+  }
+  
+  input#chave {
+    width: 30em;
+  }
+  
+  output:not(:empty) {
+    display: block;
+    background: #DEDEDE;
+    padding: 1em 2em;
+    width: 30em;
+    box-sizing: border-box;
+  }
